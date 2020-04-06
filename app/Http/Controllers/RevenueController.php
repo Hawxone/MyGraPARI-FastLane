@@ -29,7 +29,7 @@ class RevenueController extends Controller
 
         $join = DB::table('revenues')
         ->join('users','users.username','=','revenues.username')
-        ->select('revenues.created_at as created','revenues.nama as nigga','revenues.msisdn as msisdn','revenues.reason as reason','users.name as nama','revenues.revenue')
+        ->select('revenues.created_at as created','revenues.nama as nigga','revenues.msisdn as msisdn','revenues.reason as reason','users.name as nama','revenues.revenue','revenues.notes as notes')
             ->where('revenues.username',$username)
             ->whereDate('revenues.created_at', Carbon::Today())
             ->get();
@@ -50,7 +50,7 @@ class RevenueController extends Controller
      */
     public function create(Request $request)
     {
-
+        date_default_timezone_set('Asia/Jakarta');
             $report = DB::table('revenues')
                 ->where('username', $request->username)
                 ->whereYear('created_at','=',$request->tahun)
@@ -59,7 +59,7 @@ class RevenueController extends Controller
 
         $join2 = DB::table('revenues')
             ->join('users','users.username','=','revenues.username')
-            ->select('revenues.created_at as created','revenues.nama as nigga','revenues.msisdn as msisdn','revenues.reason as reason','users.name as nama','revenues.revenue')
+            ->select('revenues.created_at as created','revenues.nama as nigga','revenues.msisdn as msisdn','revenues.reason as reason','users.name as nama','revenues.revenue','revenues.notes as notes')
             ->where('revenues.username',$request->username)
             ->whereYear('revenues.created_at','=',$request->tahun)
             ->whereMonth('revenues.created_at','=',$request->bulan)
@@ -79,6 +79,7 @@ class RevenueController extends Controller
      */
     public function store(Request $request)
     {
+        date_default_timezone_set('Asia/Jakarta');
         if($request->msisdn[0] == '0' ){
             $cut = ltrim($request->msisdn,$request->msisdn[0]);
             $finish=substr_replace($cut,'62',0,0);
@@ -88,7 +89,8 @@ class RevenueController extends Controller
                 'msisdn'    => $finish,
                 'reason'    => $request->reason,
                 'revenue'   => $request->revenue,
-                'username'  => $request->username
+                'username'  => $request->username,
+                'notes' =>$request->notes
             ]);
 
             return redirect()->back();
@@ -101,7 +103,8 @@ class RevenueController extends Controller
                 'msisdn'    => $finish,
                 'reason'    => $request->reason,
                 'revenue'   => $request->revenue,
-                'username'  => $request->username
+                'username'  => $request->username,
+                'notes' =>$request->notes
             ]);
             return redirect()->back();
         }else if($request->msisdn[0] == '6'){
@@ -110,7 +113,8 @@ class RevenueController extends Controller
                 'msisdn'    => $request->msisdn,
                 'reason'    => $request->reason,
                 'revenue'   => $request->revenue,
-                'username'  => $request->username
+                'username'  => $request->username,
+                'notes' =>$request->notes
             ]);
             return redirect()->back();
         }
@@ -126,9 +130,10 @@ class RevenueController extends Controller
      */
     public function show($username)
     {
+        date_default_timezone_set('Asia/Jakarta');
         $join = DB::table('revenues')
             ->join('users','users.username','=','revenues.username')
-            ->select('revenues.created_at as created','revenues.nama as nigga','revenues.msisdn as msisdn','revenues.reason as reason','users.name as nama','revenues.revenue')
+            ->select('revenues.created_at as created','revenues.nama as nigga','revenues.msisdn as msisdn','revenues.reason as reason','users.name as nama','revenues.revenue','revenues.notes as notes')
             ->where('revenues.username',$username)
             ->get();
 

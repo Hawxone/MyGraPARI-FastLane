@@ -43,7 +43,7 @@
                         <input type="hidden" class="form-control" value="{{ Auth::user()->username }}" name='username' id="username">
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label for="nama">Bulan </label>
+                                <label for="bulan">Bulan </label>
                                 <select class="form-control" id="bulan">
                                     <option value="01">Januari</option>
                                     <option value="02">Februari</option>
@@ -97,6 +97,8 @@
                         <th>Case</th>
                         <th>CSR</th>
                         <th>Revenue</th>
+                        <th>Notes</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
 
@@ -109,6 +111,8 @@
                             <td>{{ $row->reason }}</td>
                             <td>{{ $row->nama }}</td>
                             <td>{{ $row->revenue }}</td>
+                            <td>{{ $row->notes }}</td>
+                            <td><a href="#">Ubah </a><a href="#">Hapus</a></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -125,12 +129,12 @@
         $(document).ready( function () {
 
 
-            var value = {{ $data['total'] }};
-            var value2 = {{ $data['today'] }};
-            var value3 = {{ $data['outlook'] }};
-            var num = value.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-            var num2 = value2.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-            var num3 = value3.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            let value ={{ $data['total'] }};
+            let value2 ={{ $data['today'] }};
+            let value3 ={{ $data['outlook'] }};
+            let num = value.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            let num2 = value2.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            let num3 = value3.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             console.log(num);
             $('#val').text('Rp. '+num);
             $('#val2').text('Rp. '+num2);
@@ -140,7 +144,7 @@
 
 
         $(document).on('click','#submit', function () {
-            var nigga = $('#tahun').val();
+
             table.clear().draw();
             $('#tab').empty();
             $.ajax({
@@ -157,9 +161,9 @@
                     console.log(data)
 
                     $.each(data, function (key, value) {
-                        table.row.add([ data[key].created,data[key].nigga, data[key].msisdn, data[key].reason,data[key].nama,data[key].revenue ]);
+                        table.row.add([ data[key].created,data[key].nigga, data[key].msisdn, data[key].reason,data[key].nama,data[key].revenue,data[key].notes,'<a href="#">Ubah </a><a href="#">Hapus</a>' ]);
 
-                    })
+                    });
 
                     table.draw();
 

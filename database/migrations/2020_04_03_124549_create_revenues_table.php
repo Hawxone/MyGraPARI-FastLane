@@ -16,10 +16,11 @@ class CreateRevenuesTable extends Migration
         Schema::create('revenues', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('username');
-            $table->string('nama');
-            $table->string('msisdn');
+            $table->string('nama')->nullable(false);
+            $table->string('msisdn')->nullable(false);
             $table->string('reason');
             $table->float('revenue');
+            $table->string('notes')->nullable(true);
             $table->timestamps();
         });
     }

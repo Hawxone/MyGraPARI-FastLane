@@ -8,6 +8,6 @@ class Revenue extends Model
 {
     //
     protected $fillable = [
-        'username','msisdn','reason','revenue','nama'
+        'username','msisdn','reason','revenue','nama','notes'
     ];
 }

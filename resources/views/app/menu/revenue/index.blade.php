@@ -35,8 +35,13 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="nama">MSISDN</label>
+                            <label for="msisdn">MSISDN</label>
                             <input type="text" class="form-control" name="msisdn" id="msisdn" placeholder="MSISDN" required>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="notes">Notes</label>
+                            <input type="text" class="form-control" name="notes" id="notes" placeholder="notes">
                         </div>
 
 
@@ -44,7 +49,7 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="nama">Revenue</label>
+                            <label for="revenue">Revenue</label>
                             <input type="number" class="form-control" name="revenue" id="revenue" placeholder="Revenue" required>
                         </div>
 
@@ -80,6 +85,8 @@
                         <th>Case</th>
                         <th>CSR</th>
                         <th>Revenue</th>
+                        <th>Notes</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
 
@@ -92,6 +99,8 @@
                             <td>{{ $row->reason }}</td>
                             <td>{{ $row->nama }}</td>
                             <td>{{ $row->revenue }}</td>
+                            <td>{{ $row->notes }}</td>
+                            <td><a href="#">Ubah </a><a href="#">Hapus</a></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -101,6 +110,6 @@
             </div>
         </div>
     </div>
-    </div>
+
 
 @endsection

@@ -14,8 +14,11 @@ class ReportingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function index()
     {
+
         return view('app.menu.reporting.index');
     }
 
