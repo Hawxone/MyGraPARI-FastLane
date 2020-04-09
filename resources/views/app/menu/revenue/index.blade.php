@@ -100,7 +100,7 @@
                             <td>{{ $row->nama }}</td>
                             <td>{{ $row->revenue }}</td>
                             <td>{{ $row->notes }}</td>
-                            <td><a href="#">Ubah </a><a href="#">Hapus</a></td>
+                            <td><a href="">Ubah </a><a href="{{ route('revenue.delete',['username'=>Auth::user()->username,'id'=>$row->id]) }}">Hapus</a></td>
                         </tr>
                     @endforeach
                     </tbody>

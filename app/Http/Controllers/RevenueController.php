@@ -29,7 +29,7 @@ class RevenueController extends Controller
 
         $join = DB::table('revenues')
         ->join('users','users.username','=','revenues.username')
-        ->select('revenues.created_at as created','revenues.nama as nigga','revenues.msisdn as msisdn','revenues.reason as reason','users.name as nama','revenues.revenue','revenues.notes as notes')
+        ->select('revenues.id as id','revenues.created_at as created','revenues.nama as nigga','revenues.msisdn as msisdn','revenues.reason as reason','users.name as nama','revenues.revenue','revenues.notes as notes')
             ->where('revenues.username',$username)
             ->whereDate('revenues.created_at', Carbon::Today())
             ->get();
@@ -59,7 +59,7 @@ class RevenueController extends Controller
 
         $join2 = DB::table('revenues')
             ->join('users','users.username','=','revenues.username')
-            ->select('revenues.created_at as created','revenues.nama as nigga','revenues.msisdn as msisdn','revenues.reason as reason','users.name as nama','revenues.revenue','revenues.notes as notes')
+            ->select('revenues.id as id','revenues.created_at as created','revenues.nama as nigga','revenues.msisdn as msisdn','revenues.reason as reason','users.name as nama','revenues.revenue','revenues.notes as notes')
             ->where('revenues.username',$request->username)
             ->whereYear('revenues.created_at','=',$request->tahun)
             ->whereMonth('revenues.created_at','=',$request->bulan)
@@ -272,8 +272,21 @@ class RevenueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($username,$id,Request $request)
     {
-        //
+    if($id == 0) {
+        $revenue = DB::table('revenues')
+            ->where('id',$request->id)->first();
+    }else{
+        $revenue = DB::table('revenues')
+            ->where('id',$id)->first();
+    }
+
+
+        $delete = Revenue::find($revenue->id);
+        $delete->delete();
+
+        return redirect()->back();
+
     }
 }

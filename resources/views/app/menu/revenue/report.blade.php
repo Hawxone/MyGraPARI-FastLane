@@ -103,18 +103,7 @@
                     </thead>
 
                     <tbody id="tab">
-                    @foreach($data['revenues'] as $row)
-                        <tr>
-                            <td>{{ substr($row->created,0,10) }}</td>
-                            <td>{{ $row->nigga }}</td>
-                            <td>{{ $row->msisdn }}</td>
-                            <td>{{ $row->reason }}</td>
-                            <td>{{ $row->nama }}</td>
-                            <td>{{ $row->revenue }}</td>
-                            <td>{{ $row->notes }}</td>
-                            <td><a href="#">Ubah </a><a href="#">Hapus</a></td>
-                        </tr>
-                    @endforeach
+
                     </tbody>
 
                 </table>
@@ -124,9 +113,46 @@
         </div>
     </div>
 
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="get" action="{{ route('revenue.delete',['username'=>Auth::user()->username,'id'=>0]) }}">
+
+
+                    <input id="id" name="id"  type="hidden">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <script>
+
+        $(document).on('click','#btn', function () {
+            var id = $(this).data('id');
+            $("#id").val(id);
+        });
         var table = $('#table').DataTable();
         $(document).ready( function () {
+
+
 
 
             let value ={{ $data['total'] }};
@@ -161,7 +187,7 @@
                     console.log(data)
 
                     $.each(data, function (key, value) {
-                        table.row.add([ data[key].created,data[key].nigga, data[key].msisdn, data[key].reason,data[key].nama,data[key].revenue,data[key].notes,'<a href="#">Ubah </a><a href="#">Hapus</a>' ]);
+                        table.row.add([ data[key].created,data[key].nigga, data[key].msisdn, data[key].reason,data[key].nama,data[key].revenue,data[key].notes,'<a href="#">Ubah </a><button id="btn" type="button" class="btn btn-primary" data-id='+data[key].id+' data-toggle="modal" data-target="#exampleModalCenter">Hapus</button>' ]);
 
                     });
 

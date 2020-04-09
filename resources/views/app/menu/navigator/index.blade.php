@@ -14,19 +14,37 @@
                 @csrf
                 <div class="form-row">
                     <div class="form-group">
-                        @if($antrian === null)
+                        @if($log === null)
+                            @if($antrian === null)
+                            <label><h3>Antrian {{ 1 }}</h3></label>
+                                @else
+                                <label><h3>Antrian {{ $antrian->nomor_antrian+1 }}</h3></label>
+                             @endif
+                        @elseif($antrian === null)
                                 @if( date('Y-m-d') == date('Y-m-d', strtotime($log->created_at)) )
-                                <label><h3>Antrian {{ $log->nomor_antrian + 1 }}</h3></label>
-                                    @else
-                                <label><h3>Antrian {{ 1 }}</h3></label>
-                                    @endif
-
+                                    <label><h3>Antrian {{ $log->nomor_antrian + 1}}</h3></label>
+                                @else
+                                    <label><h3>Antrian {{ 1 }}</h3></label>
+                                @endif
                             @else
                             <label><h3>Antrian {{ $antrian->nomor_antrian + 1 }}</h3></label>
                         @endif
 
 
-                        <input type="hidden" name="antrian" value="@if($antrian === null) @if( date('Ymd') == date('Ymd', strtotime($log->created_at)) )  {{ $log->nomor_antrian + 1 }} @else 1 @endif @else {{ $antrian->nomor_antrian + 1 }} @endif">
+                        <input type="hidden" name="antrian" value="
+                        @if($log === null)
+                            @if($antrian === null)
+                            1
+                            @else
+                            {{ $antrian->nomor_antrian + 1 }}
+                            @endif
+                         @elseif($antrian === null)
+                            @if( date('Ymd') == date('Ymd', strtotime($log->created_at)) )
+                                {{ $log->nomor_antrian + 1 }}
+                            @else
+                                1
+                            @endif
+                            @else {{ $antrian->nomor_antrian + 1 }} @endif">
                         <input type="hidden" name="navigator" value="{{ Auth::user()->name }}">
                         <input type="hidden" name="action" value="add">
                     </div>

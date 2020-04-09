@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth'], function (){
 
     //Revenue
     Route::get('/revenue/{username}/input', 'RevenueController@index')->name('revenue.index');
+    Route::get('/revenue/{username}/delete/{id}', 'RevenueController@destroy')->name('revenue.delete');
     Route::post('/revenue/store', 'RevenueController@store')->name('revenue.store');
     Route::get('/revenue/{username}', 'RevenueController@show')->name('revenue.show');
     Route::get('/revenue/{username}/update', 'RevenueController@create')->name('revenue.showdate');

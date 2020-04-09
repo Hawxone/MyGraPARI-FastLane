@@ -53,12 +53,12 @@
                                 </li>
                             @endif
                         @else
-                                    @canany(['spv','admin'], auth()->user())
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('monitoring.index') }}">Monitoring</a>
                             </li>
 
-
+                            @canany(['spv','admin'], auth()->user())
                              <li class="nav-item dropdown">
                                  <a id="navbarDropdown2" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                      Reporting <span class="caret"></span>

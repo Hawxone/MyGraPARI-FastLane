@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Log;
+use Carbon\Carbon;
 use DB;
 use App\Antrian;
 use http\Env\Response;
 use Illuminate\Http\Request;
+use mysql_xdevapi\Table;
 
 class AntrianController extends Controller
 {
@@ -21,7 +23,27 @@ class AntrianController extends Controller
         $antrian = DB::table('antrians')->orderBy('nomor_antrian','DESC')->first();
         $log = DB::table('logs')->orderBy('id','DESC')->first();
 
-        return view('app.menu.navigator.index')->with('antrian', $antrian)->with('log',$log);
+        $antrian2 = DB::table('antrians')->get();
+        $count = $antrian2->count();
+        if($count>=0){
+            foreach ($antrian2 as $out){
+                $nigga = Carbon::parse($out->created_at)->format('Y-m-d');
+
+                if($nigga == date('Y-m-d') ){
+                    return view('app.menu.navigator.index')->with('antrian', $antrian)->with('log',$log);
+                }else{
+                    $delete = Antrian::find($out->id);
+                    $delete->delete();
+
+                }
+                
+            }
+            return view('app.menu.navigator.index')->with('antrian', $antrian)->with('log',$log);
+        }else{
+            return view('app.menu.navigator.index')->with('antrian', $antrian)->with('log',$log);
+        }
+
+
     }
 
     public function index_ambassador()
