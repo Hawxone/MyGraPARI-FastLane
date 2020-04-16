@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Libur;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -169,7 +170,8 @@ class RevenueController extends Controller
         $period = new \DatePeriod($start, new \DateInterval('P1D'), $end);
 
 // best stored as array, so you can add more than one
-        $holidays = array();
+        $libur = Libur::all()->pluck('date')->toArray();
+        $holidays = $libur;
 
         foreach($period as $dt) {
             $curr = $dt->format('D');
@@ -180,7 +182,7 @@ class RevenueController extends Controller
             }
 
             // (optional) for the updated question
-            elseif (in_array($dt->format('Y-m-d'), $holidays)) {
+            elseif (in_array($dt->format('Y-m-d') , $holidays)) {
                 $days--;
             }
         }
@@ -206,7 +208,8 @@ class RevenueController extends Controller
         $period2 = new \DatePeriod($start, new \DateInterval('P1D'), $end2);
 
 // best stored as array, so you can add more than one
-        $holidays2 = array();
+        $libur2 = Libur::all()->pluck('date')->toArray();
+        $holidays2 = $libur2;
 
         foreach($period2 as $dt2) {
             $curr2 = $dt2->format('D');
@@ -237,7 +240,8 @@ class RevenueController extends Controller
         $data['today'] = $today;
         $data['count2'] = $today_count;
         $data['outlook'] = $outlook;
-
+        $data['days'] = $days;
+        $data['days2'] = $days2;
 
 
         return view('app.menu.revenue.report', compact('data'));
@@ -249,9 +253,15 @@ class RevenueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+
+        $report = DB::table('revenues')
+            ->where('id',$request->id)
+            ->get();
+
+        return response()->json($report);
+
     }
 
     /**
@@ -261,9 +271,19 @@ class RevenueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $update = DB::table('revenues')
+            ->where('id',$request->id)
+            ->update([
+                'nama'      => $request->nama2,
+                'msisdn'    => $request->msisdn,
+                'reason'    => $request->reason,
+                'revenue'   => $request->revenue,
+                'notes'     =>$request->notes
+            ]);
+
+        return  redirect()->back();
     }
 
     /**

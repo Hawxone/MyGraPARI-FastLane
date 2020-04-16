@@ -36,9 +36,10 @@ class AntrianController extends Controller
                     $delete->delete();
 
                 }
-                
+
             }
-            return view('app.menu.navigator.index')->with('antrian', $antrian)->with('log',$log);
+            $doggo = DB::table('antrians')->orderBy('nomor_antrian','DESC')->first();
+            return view('app.menu.navigator.index')->with('antrian', $doggo)->with('log',$log);
         }else{
             return view('app.menu.navigator.index')->with('antrian', $antrian)->with('log',$log);
         }

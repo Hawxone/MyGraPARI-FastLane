@@ -65,6 +65,13 @@ Route::group(['middleware' => 'auth'], function (){
     Route::post('/revenue/store', 'RevenueController@store')->name('revenue.store');
     Route::get('/revenue/{username}', 'RevenueController@show')->name('revenue.show');
     Route::get('/revenue/{username}/update', 'RevenueController@create')->name('revenue.showdate');
+    Route::post('/revenue/edit','RevenueController@edit')->name('revenue.edit');
+    Route::post('/revenue/update','RevenueController@update')->name('revenue.update');
+
+    //Libur
+    Route::get('/libur','LiburController@index')->name('libur.index');
+    Route::post('/libur/store','LiburController@store')->name('libur.store');
+    Route::get('/libur/delete/{id}','LiburController@destroy')->name('libur.destroy');
 
 });
 

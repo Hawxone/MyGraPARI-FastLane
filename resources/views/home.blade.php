@@ -20,6 +20,10 @@
                             <a href="{{ route('revenue.index',['username'=>Auth::user()->username]) }}"><button class="btn btn-danger">Revenue</button></a>
                         @endcan
 
+                        @canany(['admin'], auth()->user())
+                            <a href="{{ route('libur.index') }}"><button class="btn btn-danger">Jadwal Libur</button></a>
+                        @endcan
+
                 </div>
             </div>
         </div>
