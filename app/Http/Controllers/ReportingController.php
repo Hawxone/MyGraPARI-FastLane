@@ -27,6 +27,11 @@ class ReportingController extends Controller
         return view('app.menu.reporting.unserved');
     }
 
+    public function revenueindex()
+    {
+        return view('app.menu.reporting.revenue');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -98,6 +103,25 @@ class ReportingController extends Controller
         } else{
             $report = DB::table('logs')
                 ->where('selesai','00:00:00')
+                ->where('created_at','>=',$request->date1,'and','created_at','<=',$request->date2)
+                ->get();
+            return response()->json($report);
+        }
+
+    }
+
+    public function showrevenue(Request $request)
+    {
+        if($request->date1 == $request->date2){
+            $report = DB::table('revenues')
+                ->whereDate('created_at',$request->date1)
+                ->get();
+
+
+
+            return response()->json($report);
+        } else{
+            $report = DB::table('revenues')
                 ->where('created_at','>=',$request->date1,'and','created_at','<=',$request->date2)
                 ->get();
             return response()->json($report);

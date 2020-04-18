@@ -85,9 +85,55 @@ class MonitorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function revenue()
     {
-        //
+        date_default_timezone_set('Asia/Jakarta');
+        $sum_revenue = DB::table('revenues')
+            ->select(DB::raw("EXTRACT(day from created_at ) as date"),DB::raw('sum(revenue) as sum'))
+            ->groupBy(DB::raw("EXTRACT(day from created_at )"))
+            ->whereMonth('created_at', date('m'))
+            ->get();
+
+        $first_day = date('01-m-Y');
+        $last_day = date('Y-m-t');
+
+        foreach ($sum_revenue as $row ){
+            $int[] = (int)$row->date;
+        }
+
+        $start = new \DateTime($first_day);
+        $end = new \DateTime($last_day);
+
+        $interval = $end->diff($start);
+        $days = $interval->days+2;
+        $array = array();
+        $i = 1;
+        $x = 0;
+        while($i < $days){
+            if( in_array($i, $int)){
+
+                array_push($array,['date'=>$sum_revenue[$x]->date,'sum'=>$sum_revenue[$x]->sum]);
+                $x++;
+            }else{
+                array_push($array,['date'=>$i,'sum'=>0]);
+            }
+            $i++;
+        }
+
+        return response()->json($array);
+
+    }
+
+    public function revenue2()
+    {
+        $sum_revenue = DB::table('revenues')
+            ->select('reason',DB::raw('count(reason) as re'))
+            ->groupBy('reason')
+            ->whereMonth('created_at', date('m'))
+            ->get();
+
+        return response()->json($sum_revenue);
+
     }
 
     /**

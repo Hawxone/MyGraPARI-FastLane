@@ -68,6 +68,7 @@
                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown2">
                                         <a class="dropdown-item" href="{{ route('reporting.index') }}">Served</a>
                                         <a class="dropdown-item" href="{{ route('reporting.unserved') }}">Unserved</a>
+                                        <a class="dropdown-item" href="{{ route('reporting.revenue') }}">Revenue</a>
                                  </div>
 
                              </li>

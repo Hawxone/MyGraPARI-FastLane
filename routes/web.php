@@ -45,6 +45,8 @@ Route::group(['middleware' => 'auth'], function (){
 
     //Monitoring
     Route::get('/monitoring', 'MonitorController@index')->name('monitoring.index');
+    Route::get('/monitoring/revenue', 'MonitorController@revenue')->name('monitoring.revenue');
+    Route::get('/monitoring/revenue2', 'MonitorController@revenue2')->name('monitoring.revenue2');
     Route::get('/monitoring/issued', 'LogController@issuedindex')->name('monitoring.issued');
     Route::get('/monitoring/waiting', 'LogController@waitingindex')->name('monitoring.waiting');
     Route::get('/monitoring/served', 'LogController@servedindex')->name('monitoring.served');
@@ -56,7 +58,9 @@ Route::group(['middleware' => 'auth'], function (){
     Route::post('/reporting/get', 'ReportingController@show')->name('reporting.show');
     Route::post('/reporting/export', 'ReportingController@export')->name('reporting.export');
     Route::get('/reporting/unserved','ReportingController@unservedindex')->name('reporting.unserved');
+    Route::get('/reporting/revenue','ReportingController@revenueindex')->name('reporting.revenue');
     Route::post('/reporting/get-unserved', 'ReportingController@showunserved')->name('reporting.show_unserved');
+    Route::post('/reporting/get-revenue', 'ReportingController@showrevenue')->name('reporting.show_revenue');
     Route::post('/reporting/export-unserved', 'ReportingController@exportunserved')->name('reporting.export_unserved');
 
     //Revenue
